@@ -8,7 +8,7 @@ public class GUI {
     private JFrame frame;
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    private JTextField textField;
+    private JLabel lbTitle;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -27,7 +27,7 @@ public class GUI {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 841, 555);
+        frame.setBounds(100, 100, 841, 580);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Email Application");
         frame.setIconImage(new ImageIcon("img/logo.jpg").getImage());
@@ -45,50 +45,69 @@ public class GUI {
         mainPanel.add(createImportantPanel(), "important");
         mainPanel.add(createTrashPanel(), "trash");
 
-        // Set default view
-        cardLayout.show(mainPanel, "email");
+        
+        cardLayout.show(mainPanel, "email"); // Set default view
+        lbTitle.setText("Emails");  
     }
 
     private JPanel createNavbar() {
-    	JPanel navbar = new JPanel();
-		navbar.setBounds(10, 11, 842, 47);
-		frame.getContentPane().add(navbar);
-		navbar.setLayout(new BoxLayout(navbar, BoxLayout.X_AXIS));
-
+        JPanel navbar = new JPanel();
+        navbar.setBounds(10, 11, 842, 47);
+        navbar.setLayout(new BoxLayout(navbar, BoxLayout.X_AXIS));
+        
+        navbar.add(Box.createRigidArea(new Dimension(10, 0))); 
+        
         JButton btnEmail = new JButton("Emails");
-        btnEmail.addActionListener(e -> cardLayout.show(mainPanel, "email"));
+        btnEmail.addActionListener(e -> {
+            cardLayout.show(mainPanel, "email");
+            lbTitle.setText("Emails");  // Update title
+        });
         navbar.add(btnEmail);
 
-        navbar.add(Box.createRigidArea(new Dimension(30, 0))); // Invisible box for spacing
+        navbar.add(Box.createRigidArea(new Dimension(30, 0))); // Spacing
 
         JButton btnWrite = new JButton("Write");
-        btnWrite.addActionListener(e -> cardLayout.show(mainPanel, "write"));
+        btnWrite.addActionListener(e -> {
+            cardLayout.show(mainPanel, "write");
+            lbTitle.setText("Writing"); 
+        });
         navbar.add(btnWrite);
 
-        navbar.add(Box.createRigidArea(new Dimension(30, 0)));
+        navbar.add(Box.createRigidArea(new Dimension(30, 0))); 
 
         JButton btnImportant = new JButton("Important");
-        btnImportant.addActionListener(e -> cardLayout.show(mainPanel, "important"));
+        btnImportant.addActionListener(e -> {
+            cardLayout.show(mainPanel, "important");
+            lbTitle.setText("Important");  
+        });
         navbar.add(btnImportant);
 
-        navbar.add(Box.createRigidArea(new Dimension(30, 0)));
+        navbar.add(Box.createRigidArea(new Dimension(30, 0))); 
 
         JButton btnTrash = new JButton("Trash");
-        btnTrash.addActionListener(e -> cardLayout.show(mainPanel, "trash"));
+        btnTrash.addActionListener(e -> {
+            cardLayout.show(mainPanel, "trash");
+            lbTitle.setText("Trash"); 
+        });
         navbar.add(btnTrash);
 
+        // Glue to push the title to the right
+        navbar.add(Box.createHorizontalGlue());// Pushes the title to the right
+       
+        
+        lbTitle = new JLabel("Emails");
+        lbTitle.setHorizontalAlignment(SwingConstants.RIGHT);
+        lbTitle.setFont(new Font("Rockwell", Font.BOLD | Font.ITALIC, 20));
+        navbar.add(lbTitle);
+        navbar.add(Box.createRigidArea(new Dimension(30, 0))); 
+        
         return navbar;
     }
+
 
     private JPanel createEmailPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-
-        JLabel lbTitle = new JLabel("Emails");
-        lbTitle.setBounds(325, 11, 67, 24);
-        lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lbTitle.setFont(new Font("Rockwell", Font.BOLD | Font.ITALIC, 20));
-        panel.add(lbTitle);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 80, 798, 403);
@@ -100,12 +119,6 @@ public class GUI {
     private JPanel createWritePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-
-        JLabel lbTitle = new JLabel("Writing");
-        lbTitle.setBounds(325, 11, 90, 24);
-        lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lbTitle.setFont(new Font("Rockwell", Font.BOLD | Font.ITALIC, 20));
-        panel.add(lbTitle);
 
         JButton btnSend = new JButton("Send");
         btnSend.setBounds(730, 472, 89, 23);
@@ -124,7 +137,7 @@ public class GUI {
         lbAddressing.setBounds(10, 69, 48, 14);
         panel.add(lbAddressing);
 
-        textField = new JTextField();
+        JTextField textField = new JTextField();
         textField.setBounds(36, 69, 328, 20);
         panel.add(textField);
         textField.setColumns(10);
@@ -136,12 +149,6 @@ public class GUI {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        JLabel lbTitle = new JLabel("Important");
-        lbTitle.setBounds(325, 11, 112, 24);
-        lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lbTitle.setFont(new Font("Rockwell", Font.BOLD | Font.ITALIC, 20));
-        panel.add(lbTitle);
-
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 80, 798, 403);
         panel.add(scrollPane);
@@ -152,12 +159,6 @@ public class GUI {
     private JPanel createTrashPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-
-        JLabel lbTitle = new JLabel("Trash");
-        lbTitle.setBounds(325, 11, 67, 24);
-        lbTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        lbTitle.setFont(new Font("Rockwell", Font.BOLD | Font.ITALIC, 20));
-        panel.add(lbTitle);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 80, 798, 403);
