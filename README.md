@@ -81,7 +81,7 @@ Save and exit the file, then restart Postfix:
 sudo systemctl restart postfix
 
 4. Configure DNS Settings
-In your domain registrar, configure your DNS settings to point to your server:
+In your domain registrar (I used GoDaddy), configure your DNS settings to point to your server:
 
 A Record: Point mail.yourdomain.com to your VM’s IP address.
 MX Record: Set up an MX record to handle email routing for yourdomain.com.
