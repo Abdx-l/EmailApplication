@@ -1,13 +1,7 @@
+# Email Application
+
 This project is a Java-based email client that allows users to send and receive emails. It includes a GUI for interacting with the email system, and a custom mail server setup on a Linux system.
 
-Table of Contents
-Project Overview
-Features
-Installation
-Usage
-Setting Up Your Own Mail Server
-File Descriptions
-Contributing
 This project demonstrates the creation of a fully functional email client using Java. The client interacts with a custom-configured mail server running on a Linux virtual machine, allowing users to send and receive emails within the application.
 
 Features
