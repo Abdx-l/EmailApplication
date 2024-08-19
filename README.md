@@ -1,34 +1,40 @@
 # Email Application
 
-This project is a Java-based email client that allows users to send and receive emails. It includes a GUI for interacting with the email system, and a custom mail server setup on a Linux system.
+This project is a Java-based email client that allows users to send and receive emails. It includes a GUI for interacting with the email system and instructions for setting up a custom mail server on a Linux system.
 
+
+Project Overview:
 This project demonstrates the creation of a fully functional email client using Java. The client interacts with a custom-configured mail server running on a Linux virtual machine, allowing users to send and receive emails within the application.
+
 
 Features
 Send emails through a custom mail server.
 Receive emails via the same server.
 Simple and intuitive graphical user interface (GUI).
 Complete setup and configuration of a mail server on a Linux system.
-Installation
+
+
+# Installation
 Clone the Repository:
 
-bash
-Copy code
-git clone https://github.com/yourusername/email-client-project.git
-cd email-client-project
+git clone https://github.com/Abdx-l/EmailApplication
+
+cd EmailApplication
+
 Set Up the Mail Server (see Setting Up Your Own Mail Server below).
 
 Compile the Java Files:
 
-bash
-Copy code
 javac GUI.java ReceivingEmail.java SendingEmail.java
+
 Run the Application:
 
-bash
-Copy code
 java GUI
-Usage
+
+
+Usage:
+
+
 Sending Emails: Open the GUI, enter the recipient’s email address, and compose your message. Click “Send” to send the email via your custom mail server.
 Receiving Emails: Use the “Check Inbox” feature in the GUI to retrieve emails from your server.
 Setting Up Your Own Mail Server
@@ -40,43 +46,53 @@ You can use virtualization software like VMware, VirtualBox, or Hyper-V to creat
 2. Install Postfix
 Postfix is a popular mail transfer agent (MTA) that routes and delivers emails. Install it on your Linux VM:
 
-bash
-Copy code
 sudo apt-get update
 sudo apt-get install postfix
+
 3. Configure Postfix
 Edit the /etc/postfix/main.cf configuration file:
 
-bash
-Copy code
 sudo nano /etc/postfix/main.cf
+
+
 Add or modify the following lines:
 
-bash
-Copy code
-myhostname = mail.emailtestprojectlongerdomainforcheaper.com
-mydomain = emailtestprojectlongerdomainforcheaper.com
+
+myhostname = mail.yourdomain.com
+
+
+mydomain = yourdomain.com
+
+
 myorigin = $mydomain
+
+
 inet_interfaces = all
+
+
 mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+
 relay_domains =
+
 Save and exit the file, then restart Postfix:
 
-bash
-Copy code
-sudo systemctl restart postfix
-4. Configure DNS Settings
-In your domain registrar (I used go GoDaddy), configure your DNS settings to point to your server:
 
-A Record: Point the domain to your VM’s IP address.
-MX Record: Set up an MX record to handle email routing for the domain
+sudo systemctl restart postfix
+
+4. Configure DNS Settings
+In your domain registrar, configure your DNS settings to point to your server:
+
+A Record: Point mail.yourdomain.com to your VM’s IP address.
+MX Record: Set up an MX record to handle email routing for yourdomain.com.
+
 5. Verify the Configuration
 Ensure your Postfix configuration is working by sending a test email from the terminal:
 
-bash
-Copy code
-echo "Test Email Body" | mail -s "Test Subject" your-email@domain.com
-File Descriptions
+echo "Test Email Body" | mail -s "Test Subject" recipient@emaildomain.com
+
+
+# File Descriptions
 1. GUI.java
 This file contains the code for the graphical user interface (GUI) of the email client. The GUI allows users to send and receive emails through a simple interface.
 
@@ -86,5 +102,5 @@ This file contains the code responsible for retrieving emails from the mail serv
 3. SendingEmail.java
 This file contains the code for sending emails through the custom mail server. It uses the javax.mail package to handle the SMTP connection and message sending.
 
-Contributing
+# Contributing
 Contributions to this project are welcome. Feel free to fork the repository, make changes, and submit a pull request.
