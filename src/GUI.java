@@ -2,13 +2,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
-
+import java.util.List;
 public class GUI {
 
     private JFrame frame;
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private JLabel lbTitle;
+    private JCheckBox checkBox;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -30,6 +31,7 @@ public class GUI {
         frame.setBounds(100, 100, 841, 580);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Email Application");
+        frame.setResizable(false);
         frame.setIconImage(new ImageIcon("img/logo.jpg").getImage());
         
         cardLayout = new CardLayout();
@@ -42,8 +44,7 @@ public class GUI {
 
         mainPanel.add(createEmailPanel(), "email");
         mainPanel.add(createWritePanel(), "write");
-        mainPanel.add(createImportantPanel(), "important");
-        mainPanel.add(createTrashPanel(), "trash");
+      
 
         
         cardLayout.show(mainPanel, "email"); // Set default view
@@ -74,24 +75,7 @@ public class GUI {
         navbar.add(btnWrite);
 
         navbar.add(Box.createRigidArea(new Dimension(30, 0))); 
-
-        JButton btnImportant = new JButton("Important");
-        btnImportant.addActionListener(e -> {
-            cardLayout.show(mainPanel, "important");
-            lbTitle.setText("Important");  
-        });
-        navbar.add(btnImportant);
-
-        navbar.add(Box.createRigidArea(new Dimension(30, 0))); 
-
-        JButton btnTrash = new JButton("Trash");
-        btnTrash.addActionListener(e -> {
-            cardLayout.show(mainPanel, "trash");
-            lbTitle.setText("Trash"); 
-        });
-        navbar.add(btnTrash);
-
-        // Glue to push the title to the right
+        
         navbar.add(Box.createHorizontalGlue());// Pushes the title to the right
        
         
@@ -112,9 +96,20 @@ public class GUI {
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBounds(10, 80, 798, 403);
         panel.add(scrollPane);
+        
+        JTextArea emailArea = new JTextArea();
+        emailArea.setEditable(false);
+        scrollPane.setViewportView(emailArea);
+
+        
+        List<String> emails = ReceivingEmail.receiveEmails();// Fetch emails and display in the JTextArea
+        for (String email : emails) {
+            emailArea.append(email + "\n\n");
+        }
 
         return panel;
     }
+
 
     private JPanel createWritePanel() {
         JPanel panel = new JPanel();
@@ -141,29 +136,14 @@ public class GUI {
         textField.setBounds(36, 69, 328, 20);
         panel.add(textField);
         textField.setColumns(10);
+        
+        btnSend.addActionListener(e -> {
+            String recipient = textField.getText(); // Get the recipient from the text field
+            String content = textAreaContent.getText(); // Get the email content from the text area
 
+            SendingEmail.sendEmail(recipient, content);
+        });
         return panel;
     }
-
-    private JPanel createImportantPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 80, 798, 403);
-        panel.add(scrollPane);
-
-        return panel;
-    }
-
-    private JPanel createTrashPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 80, 798, 403);
-        panel.add(scrollPane);
-
-        return panel;
-    }
+    
 }
